@@ -1,0 +1,69 @@
+Script started on 2025-01-28 05:59:41+00:00 [TERM="xterm-256color" TTY="/dev/pts/8" COLUMNS="180" LINES="29"]
+[0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork1 [0;36m([1;31mmain[0;36m) [0m$ sbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* lisp (caddr '(a b x d));
+
+debugger invoked on a UNBOUND-VARIABLE in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  The variable LISP is unbound.
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(SB-INT:SIMPLE-EVAL-IN-LEXENV LISP #<NULL-LEXENV>)
+0] 0
+
+* 
+X
+* lisp (car (cadadr '(a (b (x d)))));
+
+debugger invoked on a UNBOUND-VARIABLE in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  The variable LISP is unbound.
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(SB-INT:SIMPLE-EVAL-IN-LEXENV LISP #<NULL-LEXENV>)
+0] 0
+
+* 
+X
+* lisp (car (car (cdr (car (cdr (car (car '(((a (b (x) d)))))))))));
+
+debugger invoked on a UNBOUND-VARIABLE in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  The variable LISP is unbound.
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(SB-INT:SIMPLE-EVAL-IN-LEXENV LISP #<NULL-LEXENV>)
+0] 0
+
+* 
+X
+* (cons 'a (cons 'b (cons 'x (cons 'd nil))))
+
+(A B X D)
+* (cons 'a (cons (cons 'b (cons (cons 'x (cons 'd nil)) nil)) nil))
+
+(A (B (X D)))
+* (cons (cons (cons 'a (cons (cons 'b (cons (cons 'x nil)(cons 'd nil))) nil)) nil) nil)
+
+(((A (B (X) D))))
+* [0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork1 [0;36m([1;31mmain[0;36m) [0m$ exit
+
+Script done on 2025-01-28 06:00:52+00:00 [COMMAND_EXIT_CODE="0"]
