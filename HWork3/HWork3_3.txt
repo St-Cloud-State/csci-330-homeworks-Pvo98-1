@@ -1,0 +1,130 @@
+Script started on 2025-02-19 06:43:16+00:00 [TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="180" LINES="29"]
+[0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork3 [0;36m([1;31mmain[0;36m) [0m$ sbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (defun partition-list (unprocessed list1 list2)
+(cond
+;; Case 1 If unprocessed is empty, return the two lists
+((null unprocessed) (list list1 list2))
+;; Case 2 If there is only one item, add it to the first list
+((null (cdr unprocessed)) (list (cons (car unprocessed) list1) list2))
+;; Case 3 Recursive step: Take the first two items, add one to each list
+(t (partition-list (cddr unprocessed) (cons (car unprocessed) list1) (cons (cadr unprocessed) list2)))))
+
+
+
+
+
+;; Function to sort a pair of numb
+PARTITION-LIST
+* ers
+(defun sort-pair (a b)
+  (if (< a b)
+      (list a b)
+      (list b a)))
+
+;; Function to create 
+SORT-PAIR
+* initial sorted pairs with step tracking
+(defun make-sorted-pairs (lst)
+  (labels ((make-pairs-step (processed remaining)
+             (cond ((null remaining)
+                    processed)
+                   ((null (cdr remaining))
+                    (format t "Current pairs: ~a~%" processed)
+                    (format t "Remaining: ~a~%" remaining)
+                    (cons (list (car remaining)) processed))
+                   (t
+                    (let ((new-pair (sort-pair (car remaining) (cadr remaining))))
+                      (format t "Current pairs: ~a~%" processed)
+                      (format t "Remaining: ~a~%~%" remaining)
+                      (make-pairs-step 
+                       (cons new-pair processed)
+                       (cddr remaining)))))))
+    (reverse (make-pairs-step nil lst))))
+
+;; Function to merge two
+ sorted lists
+(defun merge-sorted-lists (list1 lisMAKE-SORTED-PAIRS
+* t2)
+  (cond ((null list1) list2)
+        ((null list2) list1)
+        ((< (car list1) (car list2))
+         (cons (car list1) (merge-sorted-lists (cdr list1) list2)))
+        (t
+         (cons (car list2) (merge-sorted-lists list1 (cdr list2))))))
+
+;
+MERGE-SORTED-LISTS
+* ; Function to merge pairs of sorted lists
+(defun merge-pass (lists)
+  (cond ((null lists) nil)
+        ((null (cdr lists)) lists)
+        (t (cons (merge-sorted-lists (car lists) (cadr lists))
+                (merge-pass (cddr lists))))))
+
+;; Main me
+MERGE-PASS
+* rgesort function that shows steps
+(defun mergesort-with-steps (lst)
+  (format t "Starting with list: ~a~%~%" lst)
+  ;; Step 1: Create sorted pairs with detailed steps
+  (let ((pairs (make-sorted-pairs lst)))
+    (format t "~%Final sorted pairs: ~a~%~%" pairs)
+    
+    ;; Step 2: Merge pairs until we have one sorted list
+    (do ((current-lists pairs (merge-pass current-lists)))
+        ((null (cdr current-lists)) (car current-lists))
+      (format t "After merge pass: ~a~%~%" (merge-pass current-lists)))))
+
+;; Test function
+(defun test-mergesor
+MERGESORT-WITH-STEPS
+* t ()
+  (let ((test-list '(1 7 2 1 8 6 5 3 7 9 4)))
+    (format t "Original list: ~a~%" test-list)
+    (format t "Final sorted list: ~a~%" (mergesort-with-steps test-list))))
+
+;; Run the test
+(test-mer
+TEST-MERGESORT
+* gesort)
+Original list: (1 7 2 1 8 6 5 3 7 9 4)
+Starting with list: (1 7 2 1 8 6 5 3 7 9 4)
+
+Current pairs: NIL
+Remaining: (1 7 2 1 8 6 5 3 7 9 4)
+
+Current pairs: ((1 7))
+Remaining: (2 1 8 6 5 3 7 9 4)
+
+Current pairs: ((1 2) (1 7))
+Remaining: (8 6 5 3 7 9 4)
+
+Current pairs: ((6 8) (1 2) (1 7))
+Remaining: (5 3 7 9 4)
+
+Current pairs: ((3 5) (6 8) (1 2) (1 7))
+Remaining: (7 9 4)
+
+Current pairs: ((7 9) (3 5) (6 8) (1 2) (1 7))
+Remaining: (4)
+
+Final sorted pairs: ((1 7) (1 2) (6 8) (3 5) (7 9) (4))
+
+After merge pass: ((1 1 2 7) (3 5 6 8) (4 7 9))
+
+After merge pass: ((1 1 2 3 5 6 7 8) (4 7 9))
+
+After merge pass: ((1 1 2 3 4 5 6 7 7 8 9))
+
+Final sorted list: (1 1 2 3 4 5 6 7 7 8 9)
+NIL
+* [0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork3 [0;36m([1;31mmain[0;36m) [0m$ exit
+
+Script done on 2025-02-19 06:43:30+00:00 [COMMAND_EXIT_CODE="0"]

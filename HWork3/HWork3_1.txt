@@ -1,0 +1,75 @@
+Script started on 2025-02-19 03:42:45+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="180" LINES="29"]
+[0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork3 [0;36m([1;31mmain[0;36m) [0m$ g++ [K[K[K[Kcat HW3_1.cpp
+#include <iostream>
+#include <stack>
+using namespace std;
+
+// Partition function from textbook implementations
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high]; // Pivot element
+    int i = low - 1; // Index for the smaller element
+    
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return i + 1; // Return the partition index
+}
+
+// Non-recursive Quicksort using a stack
+void quicksortIterative(int arr[], int low, int high) {
+    stack<pair<int, int>> s;
+    s.push({low, high});
+    
+    while (!s.empty()) {
+        pair<int, int> range = s.top();
+        int low = range.first;
+        int high = range.second;
+        s.pop();
+        
+        if (low < high) {
+            int pivot = partition(arr, low, high);
+            
+            // Push left subarray
+            if (pivot - 1 > low)
+                s.push({low, pivot - 1});
+            
+            // Push right subarray
+            if (pivot + 1 < high)
+                s.push({pivot + 1, high});
+        }
+    }
+}
+
+// Helper function to print an array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {10, 7, 8, 3, 9, 1, 5, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    
+    cout << "Original array: ";
+    printArray(arr, n);
+    
+    quicksortIterative(arr, 0, n - 1);
+    
+    cout << "Sorted array: ";
+    printArray(arr, n);
+    
+    return 0;
+}
+[0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork3 [0;36m([1;31mmain[0;36m) [0m$ g++ HW3_2[K1.cpp
+[0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork3 [0;36m([1;31mmain[0;36m) [0m$ ./a.out
+Original array: 10 7 8 3 9 1 5 4 
+Sorted array: 1 3 4 5 7 8 9 10 
+[0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork3 [0;36m([1;31mmain[0;36m) [0m$ exit
+exit
+
+Script done on 2025-02-19 03:43:17+00:00 [COMMAND_EXIT_CODE="0"]
