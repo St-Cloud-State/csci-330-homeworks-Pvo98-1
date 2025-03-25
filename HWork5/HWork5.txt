@@ -1,0 +1,296 @@
+Script started on 2025-03-25 00:00:12+00:00 [TERM="xterm-256color" TTY="/dev/pts/9" COLUMNS="180" LINES="28"]
+[0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork5 [0;36m([1;31mmain[0;36m) [0m$ sbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* 
+;;; Global Variables
+(defvar *input* nil)  ; Input string
+(defvar *pos* 0)      ; Position tracker
+
+*INPUT*
+* 
+*POS*
+* 
+;;; Helper Functions
+(defun peek-next ()
+  "Returns the current character without consuming it."
+  (if (< *pos* (length *input*)) 
+      (char *input* *pos*) 
+      (code-char 0))) ; Return a sentinel character instead of nil
+
+(defun next-char ()
+  
+PEEK-NEXT
+* "Consumes and returns the next character."
+  (if (< *pos* (length *input*))
+      (prog1 (char *input* *pos*) (incf *pos*))
+      nil))
+
+(defun match 
+NEXT-CHAR
+* (expected)
+  "Matches the expected character and advances if matched."
+  (if (char= (peek-next) expected)
+      (progn (next-char) t)
+      nil))
+
+(de
+MATCH
+* fun error-msg (expected)
+  "Prints an error message for an unexpected symbol."
+  (if (peek-next)
+      (format t "Error at position ~A: Expected '~A', but found '~A'.~%" *pos* expected (peek-next))
+      (format t "Error at position ~A: Expected '~A', but reached end of input.~%" *pos* expected))
+  nil)
+
+;;; Recursive Descent Parsing Functions
+(def
+un parse-I ()
+  "Parses I → iES."
+  (if (match #\iERROR-MSG
+* )
+      (and (parse-E) (parse-S))
+      (error-msg #\i)))
+
+(defun parse-E ()
+  "Parses E → G E'."
+  ; in: DEFUN PARSE-I
+;     (PARSE-E)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-E
+
+;     (PARSE-S)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-S
+; 
+; compilation unit finished
+;   Undefined functions:
+;     PARSE-E PARSE-S
+;   caught 2 STYLE-WARNING conditions
+
+PARSE-I
+* (and (parse-G) (parse-E-prime)))
+
+(defun parse-E-p; in: DEFUN PARSE-E
+;     (PARSE-E-PRIME)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-E-PRIME
+
+;     (PARSE-G)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-G
+; 
+; compilation unit finished
+;   Undefined functions:
+;     PARSE-E-PRIME PARSE-G
+;   caught 2 STYLE-WARNING conditions
+
+PARSE-E
+* rime ()
+  "Parses E' → oG E' | ε."
+  (if (match #\o)
+      (and (parse-G) (parse-E-prime))
+      t))  ; ε case (do nothing)
+
+(defun parse-G ()
+  "Pars; in: DEFUN PARSE-E-PRIME
+;     (PARSE-G)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-G
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-G
+;   caught 1 STYLE-WARNING condition
+
+PARSE-E-PRIME
+* es G → x | y | z | w."
+  (if (or (match #\x) (match #\y) (match #\z) (match #\w))
+      t
+      (error-msg "one of 'x', 'y', 'z', or 'w'")))
+
+(defun p
+PARSE-G
+* arse-S ()
+  "Parses S → s | dLb."
+  (if (match #\s)
+      t
+      (if (match #\d)
+          (and (parse-L) (if (match #\b) t (error-msg #\b)))
+          (error-msg "s or d"))))
+
+(defun parse-L ()
+  "P; in: DEFUN PARSE-S
+;     (PARSE-L)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-L
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-L
+;   caught 1 STYLE-WARNING condition
+
+PARSE-S
+* arses L → s L'."
+  (if (match #\s)
+      (parse-L-prime)
+      (error-msg #\s)))
+
+(defun parse-L-pri; in: DEFUN PARSE-L
+;     (PARSE-L-PRIME)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-L-PRIME
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-L-PRIME
+;   caught 1 STYLE-WARNING condition
+
+PARSE-L
+* me ()
+  "Parses L' → s L' | ε."
+  (if (match #\s)
+      (parse-L-prime)
+      t))  ; ε case (do nothing)
+
+;;; Main Parser Function
+(defun parse (input
+PARSE-L-PRIME
+* )
+  "Parses the given input string and checks if it is valid."
+  (setq *input* input)
+  (setq *pos* 0)
+  (let ((result (and (parse-I) (= *pos* (length *input*)))))
+    ;; Reset input state after parsing attempt
+    (setq *input* nil)
+    (setq *pos* 0)
+    (if result
+        (format t "Success: The string '~A' is valid.~%" input)
+        (format t "Failure: The string '~A' is invalid.~%" input))))
+
+;;; Test Cases
+(setq valid-strings '("ixoys" "ix
+PARSE
+* oyowdssb" "ixozs" "ixoydssb" "iwoydssb" "ixoydssssb" "ixozs"))
+(setq invalid-strings '("xoys" "ixowd; in: SETQ VALID-STRINGS
+;     (SETQ VALID-STRINGS
+;             '("ixoys" "ixoyowdssb" "ixozs" "ixoydssb" "iwoydssb" "ixoydssssb"
+;               "ixozs"))
+; 
+; caught WARNING:
+;   undefined variable: VALID-STRINGS
+; 
+; compilation unit finished
+;   Undefined variable:
+;     VALID-STRINGS
+;   caught 1 WARNING condition
+
+("ixoys" "ixoyowdssb" "ixozs" "ixoydssb" "iwoydssb" "ixoydssssb" "ixozs")
+* b" "ixzy" "iwyd" "ixoysx" "ixozsb" "ixoyd"))
+
+(def; in: SETQ INVALID-STRINGS
+;     (SETQ INVALID-STRINGS
+;             '("xoys" "ixowdb" "ixzy" "iwyd" "ixoysx" "ixozsb" "ixoyd"))
+; 
+; caught WARNING:
+;   undefined variable: INVALID-STRINGS
+; 
+; compilation unit finished
+;   Undefined variable:
+;     INVALID-STRINGS
+;   caught 1 WARNING condition
+
+("xoys" "ixowdb" "ixzy" "iwyd" "ixoysx" "ixozsb" "ixoyd")
+* un test-parser ()
+  "Runs the parser on valid and invalid strings."
+  (format t "Testing valid strings:~%")
+  (dolist (s valid-strings)
+    (format t "Testing: '~A' (Expected: Valid) -> " s)
+    (parse s))
+  
+  (format t "~%Testing invalid strings:~%")
+  (dolist (s invalid-strings)
+    (format t "Testing: '~A' (Expected: Invalid) -> " s)
+    (parse s)))
+
+;;; Run Tests Automatically
+(test-parser)
+; in: DEFUN TEST-PARSER
+;     (DOLIST (S INVALID-STRINGS)
+;       (FORMAT T "Testing: '~A' (Expected: Invalid) -> " S)
+;       (PARSE S))
+; --> BLOCK 
+; ==>
+;   (LET ((#:N-LIST2 INVALID-STRINGS))
+;     (TAGBODY
+;      #:START3
+;       (UNLESS (ENDP #:N-LIST2)
+;         (LET (#)
+;           (SETQ #)
+;           (TAGBODY # #))
+;         (GO #:START3))))
+; 
+; caught WARNING:
+;   undefined variable: INVALID-STRINGS
+
+;     (DOLIST (S VALID-STRINGS)
+;       (FORMAT T "Testing: '~A' (Expected: Valid) -> " S)
+;       (PARSE S))
+; --> BLOCK 
+; ==>
+;   (LET ((#:N-LIST0 VALID-STRINGS))
+;     (TAGBODY
+;      #:START1
+;       (UNLESS (ENDP #:N-LIST0)
+;         (LET (#)
+;           (SETQ #)
+;           (TAGBODY # #))
+;         (GO #:START1))))
+; 
+; caught WARNING:
+;   undefined variable: VALID-STRINGS
+; 
+; compilation unit finished
+;   Undefined variables:
+;     INVALID-STRINGS VALID-STRINGS
+;   caught 2 WARNING conditions
+
+TEST-PARSER
+* Testing valid strings:
+Testing: 'ixoys' (Expected: Valid) -> Success: The string 'ixoys' is valid.
+Testing: 'ixoyowdssb' (Expected: Valid) -> Success: The string 'ixoyowdssb' is valid.
+Testing: 'ixozs' (Expected: Valid) -> Success: The string 'ixozs' is valid.
+Testing: 'ixoydssb' (Expected: Valid) -> Success: The string 'ixoydssb' is valid.
+Testing: 'iwoydssb' (Expected: Valid) -> Success: The string 'iwoydssb' is valid.
+Testing: 'ixoydssssb' (Expected: Valid) -> Success: The string 'ixoydssssb' is valid.
+Testing: 'ixozs' (Expected: Valid) -> Success: The string 'ixozs' is valid.
+
+Testing invalid strings:
+Testing: 'xoys' (Expected: Invalid) -> Error at position 0: Expected 'i', but found 'x'.
+Failure: The string 'xoys' is invalid.
+Testing: 'ixowdb' (Expected: Invalid) -> Error at position 5: Expected 's', but found 'b'.
+Failure: The string 'ixowdb' is invalid.
+Testing: 'ixzy' (Expected: Invalid) -> Error at position 2: Expected 's or d', but found 'z'.
+Failure: The string 'ixzy' is invalid.
+Testing: 'iwyd' (Expected: Invalid) -> Error at position 2: Expected 's or d', but found 'y'.
+Failure: The string 'iwyd' is invalid.
+Testing: 'ixoysx' (Expected: Invalid) -> Failure: The string 'ixoysx' is invalid.
+Testing: 'ixozsb' (Expected: Invalid) -> Failure: The string 'ixozsb' is invalid.
+Testing: 'ixoyd' (Expected: Invalid) -> Error at position 5: Expected 's', but found ' '.
+Failure: The string 'ixoyd' is invalid.
+NIL
+* [0;32m@Pvo98 [0m➜ [1;34m/workspaces/csci-330-homeworks-Pvo98-1/HWork5 [0;36m([1;31mmain[0;36m) [0m$ exit
+
+Script done on 2025-03-25 00:00:26+00:00 [COMMAND_EXIT_CODE="0"]
